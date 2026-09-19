@@ -14,7 +14,7 @@ export default function Login() {
     
     try {
       // Use environment variable for production (Render), fallback to localhost for dev
-      const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://dira-crm-hrm.onrender.com';
       
       const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
