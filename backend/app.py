@@ -42,6 +42,54 @@ def create_app():
     with app.app_context():
         db.create_all()
 
+        from models import User, Project, ProjectAllocation
+
+        if not User.query.filter_by(email="admin@dira.com").first():
+            admin = User(
+                email="admin@dira.com",
+                full_name="Jane Doe (Owner)",
+                role="ADMIN"
+            )
+            admin.set_password("password123")
+
+            employee = User(
+                email="employee@dira.com",
+                full_name="John Smith",
+                role="EMPLOYEE"
+            )
+            employee.set_password("password123")
+
+            client = User(
+                email="client@acme.com",
+                full_name="Acme Corp Contact",
+                role="CLIENT"
+            )
+            client.set_password("password123")
+
+            db.session.add_all([admin, employee, client])
+            db.session.commit()
+
+            project = Project(
+                name="Website Redesign",
+                description="Complete overhaul of the Acme Corp landing page and dashboards.",
+                budget=45000.00,
+                billing=15000.00,
+                client_id=client.id
+            )
+
+            db.session.add(project)
+            db.session.commit()
+
+            allocation = ProjectAllocation(
+                project_id=project.id,
+                employee_id=employee.id
+            )
+
+            db.session.add(allocation)
+            db.session.commit()
+
+            print("DATABASE SEEDED")
+
     # 2. Security Headers (Middleware)
     @app.after_request
     def set_security_headers(response):
