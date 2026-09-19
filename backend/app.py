@@ -39,6 +39,9 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(api_bp, url_prefix='/api')
 
+    with app.app_context():
+        db.create_all()
+
     # 2. Security Headers (Middleware)
     @app.after_request
     def set_security_headers(response):
