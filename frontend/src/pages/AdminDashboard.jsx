@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, Briefcase, DollarSign, LogOut, Bell, Search, ShieldCheck, TrendingUp, UserPlus, Activity } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -10,12 +11,16 @@ export default function AdminDashboard() {
       {/* Sidebar */}
       <div className="w-72 bg-slate-900 text-white flex flex-col shadow-2xl z-10">
         <div className="p-6 flex items-center space-x-3 mb-4">
-          <div className="h-10 w-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-            <ShieldCheck className="h-6 w-6 text-white" />
+          <div className="h-10 w-10 flex items-center justify-center">
+            <img
+              src={logo}
+              alt="NexaSync"
+              className="h-full w-full object-contain"
+            />
           </div>
           <h2 className="text-2xl font-extrabold tracking-tight">Nexa<span className="text-blue-400">Sync</span></h2>
         </div>
-        
+
         <div className="px-4 mb-4">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 px-2">Main Menu</p>
           <nav className="space-y-1">
@@ -43,7 +48,7 @@ export default function AdminDashboard() {
             <p className="text-sm text-slate-300 font-medium">Logged in as</p>
             <p className="text-lg font-bold text-white">System Admin</p>
           </div>
-          <button 
+          <button
             onClick={() => navigate('/login')}
             className="flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 transition-all w-full px-4 py-3 rounded-lg font-medium"
           >
@@ -67,7 +72,7 @@ export default function AdminDashboard() {
               placeholder="Search employees, clients, or projects..."
             />
           </div>
-          
+
           <div className="flex items-center space-x-6">
             <button className="text-slate-400 hover:text-slate-600 relative">
               <Bell className="h-6 w-6" />
@@ -132,7 +137,7 @@ export default function AdminDashboard() {
                 Across 4 departments
               </p>
             </div>
-            
+
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex justify-between items-start">
                 <p className="text-sm font-semibold text-slate-500">Active Allocations</p>

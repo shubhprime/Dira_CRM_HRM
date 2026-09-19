@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Activity, LogOut, CheckCircle2, Circle, Clock, MessageSquare } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 export default function ClientPortal() {
   const navigate = useNavigate();
@@ -10,15 +11,19 @@ export default function ClientPortal() {
       <header className="bg-slate-900 text-white shadow-xl">
         <div className="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-             <div className="h-10 w-10 bg-white/10 rounded-xl flex items-center justify-center border border-white/20">
-               <span className="text-white font-bold text-lg">A</span>
-             </div>
-             <div>
-               <h1 className="text-xl font-bold tracking-tight">Acme Corp Portal</h1>
-               <p className="text-xs text-slate-400 font-medium">Powered by NexaSync</p>
-             </div>
+            <div className="h-10 w-10 flex items-center justify-center">
+              <img
+                src={logo}
+                alt="NexaSync"
+                className="h-full w-full object-contain"
+              />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold tracking-tight">Acme Corp Portal</h1>
+              <p className="text-xs text-slate-400 font-medium">Powered by NexaSync</p>
+            </div>
           </div>
-          <button 
+          <button
             onClick={() => navigate('/login')}
             className="flex items-center px-4 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
           >
@@ -30,7 +35,7 @@ export default function ClientPortal() {
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
+
           {/* Main Project Feed */}
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
@@ -45,12 +50,12 @@ export default function ClientPortal() {
                   Track the real-time progress of your project and view the latest milestones completed by your allocated team.
                 </p>
               </div>
-              
+
               <div className="p-8 bg-slate-50">
                 <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center">
                   Project Timeline
                 </h3>
-                
+
                 {/* Timeline */}
                 <div className="relative border-l-2 border-slate-200 ml-4 space-y-8">
                   <div className="relative pl-8">
@@ -63,7 +68,7 @@ export default function ClientPortal() {
                       Initial requirements gathered and project scope finalized with the team.
                     </p>
                   </div>
-                  
+
                   <div className="relative pl-8">
                     <span className="absolute -left-3.5 bg-slate-50 h-7 w-7 rounded-full flex items-center justify-center ring-4 ring-slate-50">
                       <Clock className="h-6 w-6 text-blue-500" />
@@ -105,7 +110,7 @@ export default function ClientPortal() {
                 Contact Team
               </button>
             </div>
-            
+
             <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl shadow-md p-6 text-white">
               <h3 className="text-lg font-bold mb-2">Need Assistance?</h3>
               <p className="text-blue-100 text-sm font-medium mb-4">

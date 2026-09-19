@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, Mail, ChevronRight, ShieldCheck } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -11,33 +12,33 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
-    
+
     try {
       // Use environment variable for production (Render), fallback to localhost for dev
       const API_URL = import.meta.env.VITE_API_URL || 'https://dira-crm-hrm.onrender.com';
-      
+
       const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         setError(data.message || 'Login failed');
         return;
       }
-      
+
       // Save JWT token
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
-      
+
       // Route based on real database role
       if (data.user.role === 'ADMIN') navigate('/admin');
       else if (data.user.role === 'EMPLOYEE') navigate('/employee');
       else navigate('/client');
-      
+
     } catch (err) {
       setError('Cannot connect to server. Ensure backend is running.');
     }
@@ -53,8 +54,12 @@ export default function Login() {
 
       <div className="relative z-10 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center mb-10">
-          <div className="mx-auto h-16 w-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30 mb-6 transform rotate-3">
-            <ShieldCheck className="h-8 w-8 text-white -rotate-3" />
+          <div className="mx-auto h-20 w-20 mb-6 flex items-center justify-center">
+            <img
+              src={logo}
+              alt="NexaSync"
+              className="h-full w-full object-contain"
+            />
           </div>
           <h2 className="text-4xl font-extrabold text-white tracking-tight">
             Nexa<span className="text-blue-500">Sync</span>
@@ -65,7 +70,7 @@ export default function Login() {
         </div>
 
         <div className="bg-white/10 backdrop-blur-xl py-10 px-8 shadow-2xl sm:rounded-3xl border border-white/20">
-          
+
           {error && (
             <div className="mb-6 bg-red-500/10 border border-red-500/50 rounded-xl p-3 flex items-center text-red-200 text-sm font-medium">
               <ShieldCheck className="h-4 w-4 mr-2" />
@@ -118,14 +123,14 @@ export default function Login() {
               </button>
             </div>
           </form>
-          
+
           <div className="mt-8 pt-6 border-t border-white/10">
             <div className="bg-blue-500/10 rounded-lg p-4 border border-blue-500/20">
               <p className="text-xs text-blue-200 text-center leading-relaxed font-medium">
-                <span className="font-bold text-blue-400">Database Seed Credentials:</span><br/>
-                Admin: <code className="bg-slate-900 px-1 text-blue-300">admin@nexasync.com</code><br/>
-                Employee: <code className="bg-slate-900 px-1 text-blue-300">employee@nexasync.com</code><br/>
-                Client: <code className="bg-slate-900 px-1 text-blue-300">client@acme.com</code><br/>
+                <span className="font-bold text-blue-400">Database Seed Credentials:</span><br />
+                Admin: <code className="bg-slate-900 px-1 text-blue-300">admin@nexasync.com</code><br />
+                Employee: <code className="bg-slate-900 px-1 text-blue-300">employee@nexasync.com</code><br />
+                Client: <code className="bg-slate-900 px-1 text-blue-300">client@acme.com</code><br />
                 Password for all: <code className="bg-slate-900 px-1 text-blue-300">password123</code>
               </p>
             </div>

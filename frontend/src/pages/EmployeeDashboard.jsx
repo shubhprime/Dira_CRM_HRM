@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Briefcase, LogOut, Search, Clock, Calendar, ChevronRight } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 export default function EmployeeDashboard() {
   const navigate = useNavigate();
@@ -10,12 +11,16 @@ export default function EmployeeDashboard() {
       <header className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">E</span>
+            <div className="h-8 w-8 flex items-center justify-center">
+              <img
+                src={logo}
+                alt="NexaSync"
+                className="h-full w-full object-contain"
+              />
             </div>
             <h1 className="text-xl font-bold text-slate-900 tracking-tight">Employee Workspace</h1>
           </div>
-          
+
           <div className="flex items-center space-x-6">
             <div className="hidden sm:block relative w-64">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -28,7 +33,7 @@ export default function EmployeeDashboard() {
               />
             </div>
             <div className="h-8 w-px bg-slate-200"></div>
-            <button 
+            <button
               onClick={() => navigate('/login')}
               className="flex items-center text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
             >
@@ -64,11 +69,11 @@ export default function EmployeeDashboard() {
               </div>
               <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">Active</span>
             </div>
-            
+
             <p className="text-sm text-slate-600 mb-6 line-clamp-2">
               Full redesign of the Acme Corp landing page and customer dashboard. Expected to take 3 months.
             </p>
-            
+
             <div className="flex items-center justify-between border-t border-slate-100 pt-4">
               <div className="flex space-x-4 text-sm text-slate-500 font-medium">
                 <div className="flex items-center">
@@ -85,7 +90,7 @@ export default function EmployeeDashboard() {
               </button>
             </div>
           </div>
-          
+
           {/* Empty state filler for balance */}
           <div className="bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center p-12 text-center text-slate-400">
             <Briefcase className="h-10 w-10 mb-3 text-slate-300" />
