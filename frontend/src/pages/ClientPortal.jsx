@@ -14,13 +14,13 @@ export default function ClientPortal() {
             <div className="h-10 w-10 flex items-center justify-center">
               <img
                 src={logo}
-                alt="NexaSync"
+                alt="DIRA Marketing Agency"
                 className="h-full w-full object-contain"
               />
             </div>
             <div>
               <h1 className="text-xl font-bold tracking-tight">Acme Corp Portal</h1>
-              <p className="text-xs text-slate-400 font-medium">Powered by NexaSync</p>
+              <p className="text-xs text-slate-400 font-medium">Powered by DIRA Marketing Agency</p>
             </div>
           </div>
           <button

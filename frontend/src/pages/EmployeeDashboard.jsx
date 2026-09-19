@@ -14,7 +14,7 @@ export default function EmployeeDashboard() {
             <div className="h-8 w-8 flex items-center justify-center">
               <img
                 src={logo}
-                alt="NexaSync"
+                alt="DIRA Marketing Agency"
                 className="h-full w-full object-contain"
               />
             </div>

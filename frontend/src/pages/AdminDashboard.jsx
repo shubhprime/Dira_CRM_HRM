@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, Briefcase, DollarSign, LogOut, Bell, Search, ShieldCheck, TrendingUp, UserPlus, Activity } from 'lucide-react';
+import { Users, Briefcase, DollarSign, LogOut, Bell, Search, TrendingUp, UserPlus, Activity } from 'lucide-react';
 import logo from '../assets/logo.png';
 
 export default function AdminDashboard() {
@@ -14,7 +14,7 @@ export default function AdminDashboard() {
           <div className="h-10 w-10 flex items-center justify-center">
             <img
               src={logo}
-              alt="NexaSync"
+              alt="DIRA Marketing Agency"
               className="h-full w-full object-contain"
             />
           </div>
