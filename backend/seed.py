@@ -11,15 +11,15 @@ with app.app_context():
     db.create_all()
 
     # 1. Create Admin
-    admin = User(email="admin@nexasync.com", full_name="Jane Doe (Owner)", role="ADMIN")
+    admin = User(email="admin@dira.com", full_name="Jane Doe (Owner)", role="ADMIN")
     admin.set_password("password123")
     
     # 2. Create Employee
-    employee = User(email="employee@nexasync.com", full_name="John Smith", role="EMPLOYEE")
+    employee = User(email="employee@dira.com", full_name="John Smith", role="EMPLOYEE")
     employee.set_password("password123")
     
     # 3. Create Client
-    client = User(email="client@acme.com", full_name="Acme Corp Contact", role="CLIENT")
+    client = User(email="client@dira.com", full_name="Acme Corp Contact", role="CLIENT")
     client.set_password("password123")
 
     db.session.add_all([admin, employee, client])
@@ -43,6 +43,6 @@ with app.app_context():
 
     print("--- Database successfully seeded! ---")
     print("Use these credentials to test the real login:")
-    print("Admin    -> admin@nexasync.com / password123")
-    print("Employee -> employee@nexasync.com / password123")
-    print("Client   -> client@acme.com / password123")
+    print("Admin    -> admin@dira.com / password123")
+    print("Employee -> employee@dira.com / password123")
+    print("Client   -> client@dira.com / password123")

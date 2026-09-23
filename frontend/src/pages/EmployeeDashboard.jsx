@@ -1,26 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Briefcase, LogOut, Search, Clock, Calendar, ChevronRight } from 'lucide-react';
-import logo from '../assets/logo.png';
 
 export default function EmployeeDashboard() {
   const navigate = useNavigate();
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return navigate('/login');
+
+      try {
+        const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+        const response = await fetch(`${API_URL}/api/employee/dashboard`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (response.ok) {
+          const json = await response.json();
+          setProjects(json.projects);
+        } else {
+          if (response.status === 401 || response.status === 403) navigate('/login');
+        }
+      } catch (err) {
+        console.error("Failed to fetch employee data");
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
       <header className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="h-8 w-8 flex items-center justify-center">
-              <img
-                src={logo}
-                alt="DIRA Marketing Agency"
-                className="h-full w-full object-contain"
-              />
+            <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-lg">{user.name ? user.name[0] : 'E'}</span>
             </div>
             <h1 className="text-xl font-bold text-slate-900 tracking-tight">Employee Workspace</h1>
           </div>
-
+          
           <div className="flex items-center space-x-6">
             <div className="hidden sm:block relative w-64">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -33,8 +65,8 @@ export default function EmployeeDashboard() {
               />
             </div>
             <div className="h-8 w-px bg-slate-200"></div>
-            <button
-              onClick={() => navigate('/login')}
+            <button 
+              onClick={handleLogout}
               className="flex items-center text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
             >
               <LogOut className="h-4 w-4 mr-2" />
@@ -54,50 +86,54 @@ export default function EmployeeDashboard() {
           </div>
         </div>
 
-        {/* Project Cards (Mock Data) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white shadow-sm border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow group cursor-pointer">
-            <div className="flex justify-between items-start mb-4">
-              <div className="flex items-center space-x-4">
-                <div className="h-12 w-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center">
-                  <Briefcase className="h-6 w-6 text-blue-600" />
+        {loading ? (
+          <div className="flex justify-center p-12 text-slate-500">Loading your allocations...</div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {projects.length === 0 ? (
+               <div className="bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center p-12 text-center text-slate-400 lg:col-span-2">
+                 <Briefcase className="h-10 w-10 mb-3 text-slate-300" />
+                 <p className="font-medium">No active allocations</p>
+                 <p className="text-sm mt-1">When an admin assigns you to a new project, it will appear here.</p>
+               </div>
+            ) : projects.map((project) => (
+              <div key={project.id} className="bg-white shadow-sm border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow group cursor-pointer">
+                <div className="flex justify-between items-start mb-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="h-12 w-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center">
+                      <Briefcase className="h-6 w-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">{project.name}</h3>
+                      <p className="text-sm text-slate-500 font-medium">{project.client_name}</p>
+                    </div>
+                  </div>
+                  <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">{project.status}</span>
                 </div>
-                <div>
-                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Acme Corp Redesign</h3>
-                  <p className="text-sm text-slate-500 font-medium">Acme Corporation</p>
+                
+                <p className="text-sm text-slate-600 mb-6 line-clamp-2">
+                  {project.description}
+                </p>
+                
+                <div className="flex items-center justify-between border-t border-slate-100 pt-4">
+                  <div className="flex space-x-4 text-sm text-slate-500 font-medium">
+                    <div className="flex items-center">
+                      <Calendar className="h-4 w-4 mr-1.5 text-slate-400" />
+                      Due {project.due_date}
+                    </div>
+                    <div className="flex items-center">
+                      <Clock className="h-4 w-4 mr-1.5 text-slate-400" />
+                      In Progress
+                    </div>
+                  </div>
+                  <button className="flex items-center text-sm font-bold text-blue-600 group-hover:translate-x-1 transition-transform">
+                    View Project <ChevronRight className="h-4 w-4 ml-1" />
+                  </button>
                 </div>
               </div>
-              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">Active</span>
-            </div>
-
-            <p className="text-sm text-slate-600 mb-6 line-clamp-2">
-              Full redesign of the Acme Corp landing page and customer dashboard. Expected to take 3 months.
-            </p>
-
-            <div className="flex items-center justify-between border-t border-slate-100 pt-4">
-              <div className="flex space-x-4 text-sm text-slate-500 font-medium">
-                <div className="flex items-center">
-                  <Calendar className="h-4 w-4 mr-1.5 text-slate-400" />
-                  Due Oct 24
-                </div>
-                <div className="flex items-center">
-                  <Clock className="h-4 w-4 mr-1.5 text-slate-400" />
-                  In Progress
-                </div>
-              </div>
-              <button className="flex items-center text-sm font-bold text-blue-600 group-hover:translate-x-1 transition-transform">
-                View Project <ChevronRight className="h-4 w-4 ml-1" />
-              </button>
-            </div>
+            ))}
           </div>
-
-          {/* Empty state filler for balance */}
-          <div className="bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center p-12 text-center text-slate-400">
-            <Briefcase className="h-10 w-10 mb-3 text-slate-300" />
-            <p className="font-medium">No other active allocations</p>
-            <p className="text-sm mt-1">When an admin assigns you to a new project, it will appear here.</p>
-          </div>
-        </div>
+        )}
       </main>
     </div>
   );

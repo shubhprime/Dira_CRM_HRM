@@ -25,10 +25,14 @@ def create_app():
     app.config['JWT_TOKEN_LOCATION'] = ['headers']
 
     # --- Security Features ---
-    # 1. CORS setup: Only allow our specific frontend domain in production
-    # For dev, we allow localhost:5173 (default Vite port)
+    # 1. CORS setup: Allow local dev and production frontend
     frontend_url = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
-    CORS(app, resources={r"/api/*": {"origins": frontend_url}}, supports_credentials=True)
+    allowed_origins = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        frontend_url
+    ]
+    CORS(app, resources={r"/api/*": {"origins": allowed_origins}}, supports_credentials=True)
 
     # Initialize extensions with app
     db.init_app(app)
@@ -41,6 +45,15 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+        
+        # Auto-seed initial admin if database is completely empty (for Render deployment)
+        from models import User
+        if User.query.count() == 0:
+            admin = User(email="admin@dira.com", full_name="Jane Doe (Owner)", role="ADMIN")
+            admin.set_password("password123")
+            db.session.add(admin)
+            db.session.commit()
+            print("Database was empty. Auto-seeded initial admin user: admin@dira.com")
 
     # 2. Security Headers (Middleware)
     @app.after_request

@@ -128,9 +128,9 @@ export default function Login() {
             <div className="bg-blue-500/10 rounded-lg p-4 border border-blue-500/20">
               <p className="text-xs text-blue-200 text-center leading-relaxed font-medium">
                 <span className="font-bold text-blue-400">Database Seed Credentials:</span><br />
-                Admin: <code className="bg-slate-900 px-1 text-blue-300">admin@nexasync.com</code><br />
-                Employee: <code className="bg-slate-900 px-1 text-blue-300">employee@nexasync.com</code><br />
-                Client: <code className="bg-slate-900 px-1 text-blue-300">client@acme.com</code><br />
+                Admin: <code className="bg-slate-900 px-1 text-blue-300">admin@dira.com</code><br />
+                Employee: <code className="bg-slate-900 px-1 text-blue-300">employee@dira.com</code><br />
+                Client: <code className="bg-slate-900 px-1 text-blue-300">client@dira.com</code><br />
                 Password for all: <code className="bg-slate-900 px-1 text-blue-300">password123</code>
               </p>
             </div>
